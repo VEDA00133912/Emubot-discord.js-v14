@@ -98,8 +98,9 @@ client.on('interactionCreate', async interaction => {
   }
 });
 
+// メッセージの転送
 client.on("messageCreate", (message) => {
-    const targetChannelId = '転送したいチャンネルのID';
+    const targetChannelId = '1221467831145599036';// 転送するメッセージを書き込むチャンネルのID
     if (message.channel.id === targetChannelId) {
         const targetMessage = message.content;
         client.guilds.cache.forEach(guild => {
@@ -148,8 +149,8 @@ client.on('messageCreate', async message => {
 
 // サーバー参加時の通知(こっちに書いた後に上にあるguildcreateと統合しようとも思ったけどめんどいからやめた)
 client.on("guildCreate", (guild) => {
-    const targetGuildId = "通知したいサーバーのID";
-    const targetChannelId2 = "通知したいチャンネルのID";
+    const targetGuildId = "1200701119974867035";//通知を送信するサーバーのID
+    const targetChannelId2 = "1210222258811969596";//通知を送信するチャンネルのID(..これチャンネルIDだけでよくね？笑)
     try {
         const targetGuild = client.guilds.cache.get(targetGuildId);
         const targetChannel = targetGuild.channels.cache.get(targetChannelId2);
