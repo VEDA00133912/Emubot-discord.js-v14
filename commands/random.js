@@ -1,3 +1,4 @@
+// ランダムに文字列を生成するコマンド(Embed化してもいいかも)
 const { SlashCommandBuilder } = require('@discordjs/builders');
 
 module.exports = {
