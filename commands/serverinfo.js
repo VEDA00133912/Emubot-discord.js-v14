@@ -1,3 +1,4 @@
+// サーバー情報を表示するコマンド(今後項目を増やす)
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 
 module.exports = {
