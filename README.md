@@ -12,7 +12,10 @@
 
 ## 今後やっていくこと　(2024/5/3追記)
 - コマンドの追加
-- /goma廃止するかも？
-- /randomと/serverのEmbedの作製。/serverinfoのEmbed項目の充実
+- ディス速、Discoall,DISBOARDのup通知(おそらくEmbedの内容で判別してやればできるはず)
 - 項目多くて放置してる/helpの実装
 - グローバルチャットの実装(グロチャ荒らし対策を確立してからの実装になると思う)
+
+## とりあえずやったこと
+- **/goma**の廃止
+- /server,/randomのEmbedの実装
