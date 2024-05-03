@@ -1,3 +1,4 @@
+// CHUNITHMのランダム選曲コマンド
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 
 module.exports = {
