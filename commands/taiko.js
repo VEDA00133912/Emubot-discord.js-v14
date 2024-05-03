@@ -1,3 +1,4 @@
+// 太鼓の達人ランダム選曲コマンド
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 
 module.exports = {
