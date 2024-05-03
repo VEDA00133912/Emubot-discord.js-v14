@@ -35,21 +35,6 @@ client.once('ready', async () => {
     }
   }
 
-  client.user.setActivity("TEST", { type: "WATCHING" });
-  client.user.setPresence({
-    activity: { name: "your status" },
-    status: "online",
-  });
-
-  const activitiesList = [{ name: 'TEST' }, { name: 'test', type: 'WATCHING' }];
-
-  let i = 0;
-  setInterval(() => {
-    client.user.setActivity(activitiesList[i].name, { type: activitiesList[i].type });
-    i = ++i % activitiesList.length;
-  }, 20000);
-});
-
 client.on('interactionCreate', async interaction => {
   if (!interaction.isCommand()) return;
 
