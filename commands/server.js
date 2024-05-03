@@ -1,3 +1,4 @@
+// 参加しているサーバー一覧を表示するコマンド
 const { SlashCommandBuilder } = require('@discordjs/builders');
 
 module.exports = {
