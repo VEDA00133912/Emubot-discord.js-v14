@@ -22,16 +22,15 @@ for (const file of commandFiles) {
 }
 
 // サーバー参加時にチャンネルの作製,コマンドの登録
-client.on("guildCreate", async(guild) => {
+client.on("guildCreate", async (guild) => {
     const channelExists = guild.channels.cache.some(channel => channel.name === 'えむbot開発室' && channel.type === 'GUILD_TEXT');
 
     if (!channelExists) {
         try {
             const channel = await guild.channels.create({
-  "name": "えむbot開発室",
-  "type": 0
-}
-);
+                "name": "えむbot開発室",
+                "type": 0
+            });
             console.log(`チャンネルを作成しました: ${channel.name} (${channel.id})`);
             await channel.send('お知らせです。消さないでね');
         } catch (error) {
