@@ -1,7 +1,7 @@
 {
   "name": "discord-bot",
   "version": "1.0.0",
-  "description": "A Discord bot with slash commands implemented using discord.js v14",
+  "description": "discord.js v14を使用したスラッシュコマンドを搭載したbot",
   "main": "index.js",
   "scripts": {
     "start": "node index.js"
