@@ -1,3 +1,4 @@
+// コンギョを送信するコマンド
 const { SlashCommandBuilder } = require('@discordjs/builders');
 
 module.exports = {
