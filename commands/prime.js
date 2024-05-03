@@ -1,3 +1,4 @@
+// 素数判定をするコマンド
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 
 module.exports = {
