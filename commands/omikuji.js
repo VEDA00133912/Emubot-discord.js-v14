@@ -1,3 +1,4 @@
+// 一日一回おみくじを引けるコマンド
 const { SlashCommandBuilder } = require('@discordjs/builders');
 
 const fortunes = ["大吉", "中吉", "小吉", "吉", "末吉", "凶", "大凶"];
