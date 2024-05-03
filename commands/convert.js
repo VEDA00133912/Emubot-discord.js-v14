@@ -1,3 +1,4 @@
+// 古代文字への変換コマンド
 const { SlashCommandBuilder } = require('@discordjs/builders');
 
 module.exports = {
