@@ -1,3 +1,4 @@
+// ｺﾞﾏﾏﾖの動画を送信するコマンド(ゴママヨ機能廃止したし消してもいいかなあ)
 const { SlashCommandBuilder } = require('@discordjs/builders');
 
 module.exports = {
