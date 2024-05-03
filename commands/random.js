@@ -1,5 +1,5 @@
-// ランダムに文字列を生成するコマンド(Embed化してもいいかも)
-const { SlashCommandBuilder } = require('@discordjs/builders');
+// ランダムに文字列を生成するコマンド
+const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -13,7 +13,7 @@ module.exports = {
   async execute(interaction) {
     const length = interaction.options.getInteger('length');
 
-    if (length > 1999) {
+    if (length > 2000) {
       try {
         await interaction.reply("2000以下にしてください");
       } catch (error) {
@@ -22,8 +22,14 @@ module.exports = {
       }
     } else {
       const randomString = Array.from({ length }, () => Math.random().toString(36).charAt(2)).join("");
+        
+      const embed = new EmbedBuilder()
+        .setColor(0xf8b4cb)
+        .setTitle('ランダムな文字列')
+        .setDescription('```\n' + randomString + '\n```');
+
       try {
-        await interaction.reply(randomString);
+        await interaction.reply({ embeds: [embed] });
       } catch (error) {
         console.error(error);
         console.log("randomcreate error");
