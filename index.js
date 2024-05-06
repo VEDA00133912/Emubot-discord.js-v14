@@ -10,17 +10,6 @@ const client = new Client({
   partials: [Partials.User, Partials.Channel, Partials.GuildMember, Partials.Message, Partials.Reaction]
 });
 
-// コマンドの登録
-const fs = require('fs');
-
-client.commands = new Collection();
-const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
-
-for (const file of commandFiles) {
-  const command = require(`./commands/${file}`);
-  client.commands.set(command.data.name, command);
-}
-
 // サーバー参加時にチャンネルの作製,コマンドの登録
 client.on("guildCreate", async (guild) => {
     const channelExists = guild.channels.cache.some(channel => channel.name === 'えむbot開発室' && channel.type === 'GUILD_TEXT');
