@@ -1,14 +1,14 @@
 // https://qiita.com/narikakun/items/74e24c92709d7364ef9e様のをパクってます(((((
-const { SlashCommandBuilder, ModalBuilder, TextInputBuilder, ActionRowBuilder, TextInputStyle } = require('discord.js');
+const { SlashCommandBuilder, ModalBuilder, TextInputBuilder, ActionRowBuilder, TextInputStyle, EmbedBuilder } = require('discord.js');
 
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('1000choyen')
-		.setDescription('1000兆円画像生成'),
+		.setDescription('5000兆円欲しい！！！のあの画像を生成'),
 	async execute(interaction) {
 		const modal = new ModalBuilder()
 			.setCustomId('1000choyen')
-			.setTitle('1000兆円画像生成');
+			.setTitle('5000兆円画像生成');
 
 		const topInput = new TextInputBuilder()
 			.setCustomId('topInput')
@@ -28,13 +28,13 @@ module.exports = {
 			.then(async mInteraction => {
 				const top = mInteraction.fields.getTextInputValue('topInput');
 				const bottom = mInteraction.fields.getTextInputValue('bottomInput');
-				mInteraction.reply({
-					embeds: [{
-						image: {
-							url: `https://gsapi.cbrx.io/image?top=${encodeURIComponent(top)}&bottom=${encodeURIComponent(bottom)}&type=png`
-						}
-					}]
-				})
+
+				const embed = new MessageEmbed()
+					.setDescription('生成完了!')
+					.setColor(0xf8b4cb)
+					.setImage(`https://gsapi.cbrx.io/image?top=${encodeURIComponent(top)}&bottom=${encodeURIComponent(bottom)}&type=png`);
+
+				mInteraction.reply({ embeds: [embed] });
 			})
 			.catch(console.error);
 	},
