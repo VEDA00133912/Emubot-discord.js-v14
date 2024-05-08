@@ -6,7 +6,7 @@
 
 完成版はサポートサーバーにあります()
 
-> [サポートサーバー]([https://discord.gg/CyVbd7aMww](https://discord.gg/BnmvxuQk))
+> [サポートサーバー](https://discord.gg/BnmvxuQk)
 
 > [Twitter](https://twitter.com/ryo_001339)
 
