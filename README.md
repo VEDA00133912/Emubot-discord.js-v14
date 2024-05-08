@@ -6,7 +6,7 @@
 
 完成版はサポートサーバーにあります()
 
-> [サポートサーバー](https://discord.gg/CyVbd7aMww)
+> [サポートサーバー]([https://discord.gg/CyVbd7aMww](https://discord.gg/BnmvxuQk))
 
 > [Twitter](https://twitter.com/ryo_001339)
 
@@ -18,3 +18,4 @@
 ## とりあえずやったこと
 - **/help**の実装(なぜかPylexで動作しなかったのでDiscloudでホスティングした。原因を調べておきたい) (5/4)
 - .envに変更(5/5)
+- 5000兆円ジェネレーターつけた
