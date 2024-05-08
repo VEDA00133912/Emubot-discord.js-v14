@@ -30,7 +30,6 @@ module.exports = {
 				const bottom = mInteraction.fields.getTextInputValue('bottomInput');
 
 				const embed = new EmbedBuilder()
-					.setDescription('生成完了！')
 					.setColor(0xf8b4cb)
 					.setImage(`https://gsapi.cbrx.io/image?top=${encodeURIComponent(top)}&bottom=${encodeURIComponent(bottom)}&type=png`);
 
