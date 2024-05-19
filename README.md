@@ -22,3 +22,4 @@
 - **/nitrogen**と **/tokengen**つけた(5/9)
 - 進数変換する **/changenumber**つけた (5/14)
 - ↑こいつの修正と **/userinfo**つけた(5/16)
+- **/translate** によるGoogle翻訳(英語、中国語、韓国語、ロシア語)をつけた
