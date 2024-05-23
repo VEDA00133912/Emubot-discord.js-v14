@@ -1,5 +1,4 @@
-// 一日一回おみくじを引けるコマンド
-const { SlashCommandBuilder } = require('@discordjs/builders');
+const { SlashCommandBuilder } = require('discord.js');
 
 const fortunes = ["大吉", "中吉", "小吉", "吉", "末吉", "凶", "大凶"];
 const dailyFortunes = new Map();
@@ -9,18 +8,23 @@ module.exports = {
     .setName('omikuji')
     .setDescription('おみくじを引けます'),
   async execute(interaction) {
-    const userId = interaction.user.id;
+    try {
+      const userId = interaction.user.id;
 
-    if (!dailyFortunes.has(userId) || !isToday(dailyFortunes.get(userId))) {
-      let result = '';
-      do {
-        result = fortunes[Math.floor(Math.random() * fortunes.length)];
-      } while (dailyFortunes.get(userId) === result); 
-      await interaction.reply(`今日のあなたは **${result}** です`);
+      if (!dailyFortunes.has(userId) || !isToday(dailyFortunes.get(userId))) {
+        let result = '';
+        do {
+          result = fortunes[Math.floor(Math.random() * fortunes.length)];
+        } while (dailyFortunes.get(userId) === result); 
+        await interaction.reply(`今日のあなたは **${result}** です`);
 
-      dailyFortunes.set(userId, new Date());
-    } else {
-      await interaction.reply('またあした引いてください！');
+        dailyFortunes.set(userId, new Date());
+      } else {
+        await interaction.reply('またあした引いてください！');
+      }
+    } catch (error) {
+      console.error('おみくじの実行中にエラーが発生しました：', error);
+      await interaction.reply('おみくじの実行中にエラーが発生しました。');
     }
   },
 };
