@@ -19,7 +19,7 @@ module.exports = {
       await interaction.reply({ embeds: [embed] });
     } catch (error) {
       console.error(error);
-      console.log("serverinfo error");
+      console.log("ping error");
     }
   },
 };
