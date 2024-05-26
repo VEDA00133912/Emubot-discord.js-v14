@@ -20,7 +20,7 @@ module.exports = {
           await Promise.all(promises);
       
           const embed = new EmbedBuilder()
-            .setColor('#00FF00')
+            .setColor(0xf8b4cb)
             .setTitle('削除完了！')
             .setDescription(`削除したメッセージ数: ${promises.length}`);
 
