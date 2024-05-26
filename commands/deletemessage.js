@@ -10,6 +10,9 @@ module.exports = {
       .setRequired(true)),
 
       async execute(interaction) {
+         if (!interaction.member.permissions.has("MANAGE_MESSAGES")) {
+            return interaction.reply({ content: 'このコマンドを実行する権限がありません。', ephemeral: true });
+        }
         try {
             await interaction.deferReply({ ephemeral: true });
 
