@@ -1,6 +1,7 @@
 {
 	"token": "botのtoken",
-	"clientId": "botのID"
+	"clientId": "botのID",
+	"REMOVE_BG_API_KEY":"remove.bgのAPIキー"
 }
 
 
