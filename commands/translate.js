@@ -22,22 +22,31 @@ module.exports = {
                    { name:"韓国語", value:"ko" },
                    { name:"ロシア語", value:"ru" })
     ),
-  async execute(interaction) {
-    await interaction.deferReply();
+async execute(interaction) {
+  await interaction.deferReply();
 
-    const text = interaction.options.getString('text');
-    const targetLanguage = interaction.options.getString('language');
+  const text = interaction.options.getString('text');
+  const targetLanguage = interaction.options.getString('language');
 
-    try {
-      const translatedText = await gasTranslate(text, 'ja', targetLanguage);
+if (hasMention(text)) {
+  await interaction.editReply({ content: 'メンションが含まれているため、変換を行いません。', ephemeral: true });
+  return;
+}
 
-      await interaction.editReply(translatedText);
-    } catch (error) {
-      console.error(error);
-      await interaction.editReply('翻訳エラーが発生しました。');
-    }
+  try {
+    const translatedText = await gasTranslate(text, 'ja', targetLanguage);
+
+    await interaction.editReply(translatedText);
+  } catch (error) {
+    console.error(error);
+    await interaction.editReply({ content:'翻訳エラーが発生しました', ephemeral:true });
+}
   },
 };
+
+function hasMention(text) {
+  return /<@!?(\d+)>/.test(text);
+}
 
 function gasTranslate(text, source, target) {
   return axios.get(`https://script.google.com/macros/s/AKfycbweJFfBqKUs5gGNnkV2xwTZtZPptI6ebEhcCU2_JvOmHwM2TCk/exec`, {
@@ -52,4 +61,3 @@ function gasTranslate(text, source, target) {
     throw error;
   });
 }
-
