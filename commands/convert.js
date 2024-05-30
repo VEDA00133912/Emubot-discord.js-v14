@@ -1,17 +1,18 @@
-// 古代文字への変換コマンド
 const { SlashCommandBuilder } = require('discord.js');
 
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('convert')
-    .setDescription('テキストを古代文字に変換します。')
+    .setDescription('テキストを指定形式に変換します。')
     .addStringOption(option =>
       option.setName('type')
         .setDescription('変換タイプを選択します。')
         .setRequired(true)
         .addChoices({name:"rune文字", value:"rune"}, 
                     {name:"フェニキア文字", value:"phoenicia"},
-                    {name:"ヒエログリフ",value:"hieroglyphs"})
+                    {name:"ヒエログリフ",value:"hieroglyphs"},
+                    {name:"逆読み", value:"reverse"},
+                    {name:"アナグラム", value:"anagram"})
     )
     .addStringOption(option =>
       option.setName('text')
@@ -34,6 +35,12 @@ module.exports = {
       case 'hieroglyphs':
         convertedText = convertText(text, conversionData.hieroglyphs);
         break;
+      case 'reverse':
+        convertedText = text.split('').reverse().join('');
+        break;
+      case 'anagram':
+        convertedText = anagram(text);
+        break;
       default:
         await interaction.reply('その文字はサポートされていません。');
         return;
@@ -48,4 +55,13 @@ function convertText(text, conversionMap) {
     .split('')
     .map(char => conversionMap[char] || char)
     .join('');
+}
+
+function anagram(text) {
+  const chars = text.split('');
+  for (let i = chars.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [chars[i], chars[j]] = [chars[j], chars[i]];
+  }
+  return chars.join('');
 }
