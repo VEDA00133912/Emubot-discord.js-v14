@@ -12,9 +12,9 @@
 - グローバルチャットの実装(グロチャ荒らし対策を確立してからの実装になると思う)
 
 ## とりあえずやったこと
-- deploy-commands.jsをeventsに移動
-- remove.bgのAPIを使った画像の背景透過コマンド **/remove** を実装
 - BANユーザーの数を表示するコマンドの **/bancount** を実装
 - メッセージ削除コマンド **/deletemessage** を実装
 - **/remove** の不具合を修正(5/28)
+- **/serverinfo** , **/userinfo** , **/chunithm(全曲)** のバグ修正
+- 太鼓の曲追加
   
