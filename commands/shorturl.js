@@ -20,8 +20,9 @@ module.exports = {
         try {
             const response = await axios.get(`https://xgd.io/V1/shorten?url=${encodeURIComponent(urlToShorten)}&key=${apiKey}`);
             if (response.status === 200 && response.data.status === 200) {
-                const shortenedUrl = response.data.shorturl;
-                await interaction.editReply(`短縮URL: <${shortenedUrl}>`);
+                const Url = response.data.shorturl;
+                const shortenedUrl = `<${Url}>`;
+                await interaction.editReply(`短縮URL: ${shortenedUrl}`);
             } else {
                 await interaction.editReply('URLの短縮に失敗しました。');
             }
