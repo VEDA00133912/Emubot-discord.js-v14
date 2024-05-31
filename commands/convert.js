@@ -47,7 +47,7 @@ if (hasMention(text)) {
       convertedText = anagram(text);
       break;
     default:
-      await interaction.reply('その文字はサポートされていません。');
+      await interaction.reply({ content: 'エラーが発生しました。', ephemeral: true });
       return;
   }
 
