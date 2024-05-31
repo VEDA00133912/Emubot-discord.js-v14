@@ -6,7 +6,7 @@ const config = require('../config.json');
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName('short')
+        .setName('shorturl')
         .setDescription('URLを短縮します')
         .addStringOption(option =>
             option.setName('url')
