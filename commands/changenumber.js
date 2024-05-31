@@ -59,7 +59,7 @@ module.exports = {
             await interaction.reply({ embeds: [embed] });
         } catch (error) {
             console.error(error);
-            await interaction.reply('エラーが発生しました。');
+            await interaction.reply({ content: 'エラーが発生しました。', ephemeral: true });
         }
     },
 };
