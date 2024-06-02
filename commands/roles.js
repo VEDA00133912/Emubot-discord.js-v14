@@ -25,7 +25,7 @@ module.exports = {
         let roleList = '';
         for (const role of sortedRoles.values()) {
             const Rolemember = role.members.size;
-            roleList += `${role.name}  メンバー数: ${Rolemember}\n`;
+            roleList += `${role.name}         ${Rolemember}人\n`;
         }
 
         const embed = new EmbedBuilder()
