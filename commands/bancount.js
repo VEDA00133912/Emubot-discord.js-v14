@@ -11,7 +11,7 @@ module.exports = {
             const bannedUsersCount = bannedUsers.size;
 
             const embed = new EmbedBuilder()
-                .setColor('#f8b4cb')
+                .setColor(0xf8b4cb)
                 .setTitle('Banned Users')
                 .setDescription(`このサーバーのBANユーザー数: ${bannedUsersCount}`);
 
