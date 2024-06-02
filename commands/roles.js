@@ -1,3 +1,5 @@
+// https://github.com/InFuzzz/discord-rolelist-commmand/blob/main/rolelist.js　参考
+
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 const cooldowns = new Map();
 
@@ -21,15 +23,10 @@ module.exports = {
 
         const roles = interaction.guild.roles.cache;
         const sortedRoles = roles.sort((a, b) => b.position - a.position);
-
-        let roleList = '';
-        for (const role of sortedRoles.values()) {
-            const Rolemember = role.members.size;
-            roleList += `${role.name}         ${Rolemember}人\n`;
-        }
+        const roleList = sortedRoles.map(r => `${r}`).join("\n");
 
         const embed = new EmbedBuilder()
-            .setTitle('サーバー内のロール一覧')
+            .setTitle('サーバーのロール一覧')
             .setDescription(`>>> ${roleList}`)
             .setColor(0xf8b4cb)
             .setFooter({ text: 'このメッセージは1分後に削除されます！' });
