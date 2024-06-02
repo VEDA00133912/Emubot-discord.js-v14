@@ -2,7 +2,8 @@
 	"token": "botのtoken",
 	"clientId": "botのID",
 	"REMOVE_BG_API_KEY":"remove.bgのAPIキー",
-	"xgdApiKey":"x.gdのAPIキー"
+	"xgdApiKey":"x.gdのAPIキー",
+	"API_KEY":"GeminiのAPIキー",
 }
 
 
