@@ -10,6 +10,8 @@
     "node": "19.x"
   },
   "dependencies": {
+    "@google-cloud/language": "^6.2.0",
+    "@google/generative-ai": "^0.2.1",
     "axios": "^1.7.2",
     "config.json": "^0.0.4",
     "discord.js": "^14.15.2"
