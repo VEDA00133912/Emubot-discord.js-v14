@@ -29,8 +29,9 @@ module.exports = {
         }
 
         const embed = new EmbedBuilder()
-            .setTitle('サーバーの役割一覧')
+            .setTitle('サーバー内のロール一覧')
             .setDescription(`>>> ${roleList}`)
+            .setColor(0xf8b4cb)
             .setFooter({ text: 'このメッセージは1分後に削除されます！' });
 
         const reply = await interaction.reply({ embeds: [embed], fetchReply: true });
