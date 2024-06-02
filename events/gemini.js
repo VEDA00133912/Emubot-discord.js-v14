@@ -1,3 +1,5 @@
+// https://github.com/youkeykuwa/discord.gemini/blob/main/index.js 元コード
+// GeminiAPIキーはhttps://makersuite.google.com/app/prompts/new_freeformで取得してください
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 const { API_KEY } = require('../config.json');
 const genAI = new GoogleGenerativeAI(API_KEY);
