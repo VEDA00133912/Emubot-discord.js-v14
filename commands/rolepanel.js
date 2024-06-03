@@ -22,7 +22,7 @@ module.exports = {
 
         let rolesDescription = "";
 
-        const emojis = ['🇦', '🇧', '🇨', '🇩', '🇪']; // Define emojis to use as labels
+        const emojis = ['🇦', '🇧', '🇨', '🇩', '🇪'];
 
         for (let i = 0; i < 5; i++) {
             const role = interaction.options.getRole(`role${i + 1}`);
@@ -31,10 +31,10 @@ module.exports = {
                 buttons.addComponents(
                     new ButtonBuilder()
                         .setCustomId(`button${i + 1}`)
-                        .setLabel(emojis[i]) // Use emojis as labels
+                        .setLabel(emojis[i]) 
                         .setStyle(ButtonStyle.Secondary)
                 );
-                rolesDescription += `${emojis[i]} : ${role.toString()}\n`; // Use emojis as labels
+                rolesDescription += `${emojis[i]} : ${role.toString()}\n`; 
             }
         }
 
