@@ -1,5 +1,6 @@
 // https://github.com/youkeykuwa/discord.gemini/blob/main/index.js 元コード
 // GeminiAPIキーはhttps://makersuite.google.com/app/prompts/new_freeformで取得してください
+// geminiは無料版は15リクエスト/分、1日1500リクエストです
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 const { API_KEY } = require('../config.json');
 const genAI = new GoogleGenerativeAI(API_KEY);
