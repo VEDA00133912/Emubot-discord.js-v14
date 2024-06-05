@@ -29,7 +29,7 @@ module.exports = {
         .setTitle('素数判定結果')
         .addFields(
           { name: '入力された数', value: number.toString() },
-          { name: '結果', value: isPrime ? '素数です' : '素数ではないです' },
+          { name: '結果', value: isPrime ? '素数です' : number === 57 ? '[グロタンディーク素数](<https://dic.nicovideo.jp/a/グロタンディーク素数>)です' : '素数ではないです' },
         );
 
       await interaction.reply({ embeds: [embed] });
