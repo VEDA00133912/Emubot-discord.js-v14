@@ -5,7 +5,7 @@
 [![discord.js v14.x\~](https://img.shields.io/badge/-discord.js%20v14.x~-black.svg?logo=discord&style=for-the-badge)](https://www.npmjs.com/package/discord.js)
 
 # サポート等
-[![Twitter](https://github.com/VEDA00133912/Emubot-discord.js-v14/assets/143770907/fcb24200-3ee7-42a0-b5d3-7f62395a382f)](https://twitter.com/ryo_001339)
+[![Twitter](https://img.shields.io/twitter/url)](https://twitter.com/ryo_001339)
 
 
 ## 今後やっていくこと　(2024/5/4追記)
