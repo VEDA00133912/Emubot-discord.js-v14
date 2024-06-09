@@ -5,8 +5,8 @@
 [![discord.js v14.x\~](https://img.shields.io/badge/-discord.js%20v14.x~-black.svg?logo=discord&style=for-the-badge)](https://www.npmjs.com/package/discord.js)
 
 # サポート等
-- [twitter](https://twitter.com/ryo_001339) : DMで受け付けてます
-- [discord](https://discord.gg/rwh6TvphJ9) : えむbot開発室で受け付けてます
+[![twitter](https://img.shields.io/badge/-twitter-black.svg?logo=x&style=for-the-badge)](https://twitter.com/ryo_001339) : DMで受け付けてます
+[![discord](https://img.shields.io/badge/-discord-black.svg?logo=discord&style=for-the-badge)](https://discord.gg/rwh6TvphJ9) : えむbot開発室で受け付けてます
 
 ## 起動
 [config.json](config.json)にbotのToken,IDなどの必要事項を入力<br>
