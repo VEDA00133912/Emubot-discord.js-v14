@@ -5,8 +5,8 @@
 [![discord.js v14.x\~](https://img.shields.io/badge/-discord.js%20v14.x~-black.svg?logo=discord&style=for-the-badge)](https://www.npmjs.com/package/discord.js)
 
 # サポート等
-[![Twitter](https://img.shields.io/twitter/url)](https://twitter.com/ryo_001339)
-
+- [twitter](https://twitter.com/ryo_001339) 
+- [discord](https://discord.gg/rwh6TvphJ9)
 
 ## 今後やっていくこと　(2024/5/4追記)
 - コマンドの追加
