@@ -12,5 +12,5 @@
 ## 起動
 [config.json](config.json)にbotのToken,IDなどの必要事項を入力<br>
 `node index.js` で起動します
-
-
+## コマンドや機能等
+[commands.md](commands.md)を参照
