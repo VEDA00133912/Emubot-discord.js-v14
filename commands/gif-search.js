@@ -1,3 +1,4 @@
+// https://developers.google.com/tenor/guides/quickstart API取得せいやー
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 const axios = require('axios');
 const fs = require('fs');
