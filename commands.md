@@ -31,7 +31,6 @@
 |`rolecreate`|名前(+色)を指定してロールを作成できます|
 |`/ip`|ip2locationのAPIを使ったIPの情報の検索ができます。|
 |`/whois`|ip2locationのAPIを使ったwhois情報の検索ができます|
-~~|`/verifypanel`|スーパー簡易認証パネルの設置|~~
 
 
 ## その他機能
