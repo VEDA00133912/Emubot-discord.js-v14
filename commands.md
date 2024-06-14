@@ -16,7 +16,6 @@
 |`/translate`|日本語からの翻訳(英語、韓国語、中国語、ロシア語)|
 |`/serverinfo`|サーバーの情報の表示|
 |`/userinfo`|メンションしたユーザーかIDで指定したユーザーの情報表示|
-|`/verifypanel`|スーパー簡易認証パネルの設置|
 |`/qr`|URLや文字列等をQRコードに変換|
 |`/remove`|png,jpgの画像の背景透過|
 |`/prime`|素数かどうか判定|
@@ -30,7 +29,10 @@
 |`/timer`|タイマーを設置|
 |`/calc`|計算を行います|
 |`rolecreate`|名前(+色)を指定してロールを作成できます|
-|`/ip-info`|ipinfoのAPIを使ったIPの情報の検索ができます。精度は微妙|
+|`/ip`|ip2locationのAPIを使ったIPの情報の検索ができます。|
+|`/whois`|ip2locationのAPIを使ったwhois情報の検索ができます|
+~~|`/verifypanel`|スーパー簡易認証パネルの設置|~~
+
 
 ## その他機能
 | 機能 | 機能の説明|
