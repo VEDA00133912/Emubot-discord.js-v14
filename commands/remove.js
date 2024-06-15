@@ -40,7 +40,11 @@ module.exports = {
       const buffer = Buffer.from(response.data, 'binary');
       const attachment = new AttachmentBuilder(buffer, { name: 'removebg.png' });
 
-      await interaction.editReply({ content: '背景を削除したよ！', files: [attachment] });
+　　  const embed = new Discord.MessageEmbed()
+　　    .setTitle('背景を透過しました')
+ 　　   .setImage('attachment://removebg.png');
+
+　　  await interaction.editReply({ embeds: [embed], files: [attachment] });
     } catch (error) {
       console.error('画像の背景透過中にエラーが発生しました：', error);
       await interaction.reply('エラーが出ちゃったよ..');
