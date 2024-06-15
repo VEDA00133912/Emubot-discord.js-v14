@@ -16,6 +16,7 @@
     "config.json": "^0.0.4",
     "discord.js": "^14.15.2",
     "@discordjs/voice": "^0.17.0",
-    "ytdl-core": "^4.11.5"
+    "ytdl-core": "^4.11.5",
+    "tweetnacl": "^1.0.3"
   }
 }
