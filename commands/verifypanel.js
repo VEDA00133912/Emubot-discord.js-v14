@@ -1,57 +1,57 @@
-const { SlashCommandBuilder, EmbedBuilder, ButtonStyle, ButtonBuilder, ActionRowBuilder, PermissionsBitField } = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder, ButtonBuilder, ActionRowBuilder, ButtonStyle, PermissionsBitField } = require('discord.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName('verifypanel')
-        .setDescription('認証パネル')
-        .addRoleOption(option => option.setName('role').setDescription('ロール').setRequired(true)),
-
+        .setName('verify')
+        .setDescription('指定したロールを付与します')
+        .addRoleOption(option => option.setName('role').setDescription('付与するロール').setRequired(true)),
     async execute(interaction) {
-        if (!interaction.member.permissions.has(PermissionsBitField.Flags.ManageRoles)) {
-            return interaction.reply({ content: 'あなたにこのコマンドを実行する権限がありません。', ephemeral: true });
-        }
-
         const role = interaction.options.getRole('role');
 
-        const buttons = new ActionRowBuilder()
-            .addComponents( 
-                new ButtonBuilder()
-                    .setCustomId('button')
-                    .setLabel('認証！') 
-                    .setStyle(ButtonStyle.Primary)
-            );
+        if (!interaction.member.permissions.has(PermissionsBitField.Flags.ManageRoles)) {
+            return interaction.reply({ content: 'あなたは実行できません。', ephemeral: true });
+        }
 
-        const guildName = interaction.guild.name; 
+        if (!interaction.guild.members.me.permissions.has(PermissionsBitField.Flags.ManageRoles)) {
+            return interaction.reply({ content: 'ロールの管理権限がありません。', ephemeral: true });
+        }
+
+        if (interaction.guild.members.me.roles.highest.comparePositionTo(role) <= 0) {
+            return interaction.reply({ content: 'botロールより上のロールは付与できません。', ephemeral: true });
+        }
+
         const embed = new EmbedBuilder()
-            .setColor(0xf8b4cb)
-            .addFields(
-                { name: `${guildName}：認証パネル`, value: `${role.toString()}` } 
-            );
+            .setTitle('ロールを付与する')
+            .setDescription(`このボタンを押してロール ${role.name} を取得します。`)
+            .setColor(role.color);
 
-        await interaction.reply({ embeds: [embed], components: [buttons] });
+        const button = new ButtonBuilder()
+            .setCustomId(role.id)
+            .setLabel('ロールを付与')
+            .setStyle(ButtonStyle.Primary);
 
-        const collector = interaction.channel.createMessageComponentCollector();
+        const row = new ActionRowBuilder().addComponents(button);
 
-        collector.on('collect', async (i) => {
-            const member = i.member;
+        await interaction.reply({ embeds: [embed], components: [row]});
+    },
+    async handleButtonInteraction(interaction) {
+        const roleId = interaction.customId;
+        const role = interaction.guild.roles.cache.get(roleId);
 
-            try {
-                if (!member) {
-                    throw new Error("メンバー情報を取得できませんでした。");
-                }
+        if (!role) {
+            return interaction.reply({ content: 'ロールが見つかりません。', ephemeral: true });
+        }
 
-                if (i.guild.members.me.roles.highest.position < role.position && i.customId === 'button') {
-                    throw new Error("botのロールがそのロールよりも下にあるため、付与ができませんでした");
-                }
+        if (interaction.guild.members.me.roles.highest.comparePositionTo(role) <= 0) {
+            return interaction.reply({ content: 'botロールより上のロールは付与できません。', ephemeral: true });
+        }
 
-                if (i.customId === 'button') {
-                    await member.roles.add(role);
-                    i.reply({ content: `認証しました<a:1196945710009036821:1247370449604841492>`, ephemeral: true }); 
-                }
-            } catch (error) {
-                console.error(error);
-                i.reply({ content: error.message, ephemeral: true });
-            }
-        });
-    }
+        try {
+            await interaction.member.roles.add(role);
+            return interaction.reply({ content: `ロール ${role.name} が付与されました。`, ephemeral: true });
+        } catch (error) {
+            console.error(error);
+            return interaction.reply({ content: 'ロールの付与に失敗しました。', ephemeral: true });
+        }
+    },
 };
