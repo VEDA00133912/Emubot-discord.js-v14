@@ -5,10 +5,10 @@ const fs = require('fs');
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('ip')
-        .setDescription('Performs an IP lookup')
+        .setDescription('IP情報の表示')
         .addStringOption(option =>
             option.setName('ip')
-                .setDescription('The IP address to lookup')
+                .setDescription('調べたいIP')
                 .setRequired(true)),
     async execute(interaction) {
         const ip = interaction.options.getString('ip');
