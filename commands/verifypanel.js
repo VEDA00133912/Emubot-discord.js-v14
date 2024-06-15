@@ -48,7 +48,7 @@ module.exports = {
 
         try {
             await interaction.member.roles.add(role);
-            return interaction.reply({ content: `ロール ${role.name} が付与されました。`, ephemeral: true });
+            return interaction.reply({ content: `ロール ${role.name} が付与されました。<a:1196945710009036821:1247370449604841492>`, ephemeral: true });
         } catch (error) {
             console.error(error);
             return interaction.reply({ content: 'ロールの付与に失敗しました。', ephemeral: true });
