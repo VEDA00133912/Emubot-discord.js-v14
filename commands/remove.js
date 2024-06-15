@@ -1,8 +1,8 @@
 // https://www.remove.bg/dashboard#api-key　ここでAPIキーを取得してください
-const { SlashCommandBuilder, AttachmentBuilder } = require('discord.js');
+const { SlashCommandBuilder, AttachmentBuilder,EmbedBuilder } = require('discord.js');
 const axios = require('axios');
 const fs = require('fs');
-
+                   
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('remove')
@@ -22,7 +22,7 @@ module.exports = {
       const configData = fs.readFileSync('config.json');
       const config = JSON.parse(configData);
       const apiKey = config.REMOVE_BG_API_KEY;
-
+      
       const response = await axios.post('https://api.remove.bg/v1.0/removebg',
         {
           image_url: image.proxyURL,
@@ -40,11 +40,12 @@ module.exports = {
       const buffer = Buffer.from(response.data, 'binary');
       const attachment = new AttachmentBuilder(buffer, { name: 'removebg.png' });
 
-　　  const embed = new Discord.MessageEmbed()
-　　    .setTitle('背景を透過しました')
- 　　   .setImage('attachment://removebg.png');
+const embed = new EmbedBuilder()
+.setTitle('背景を透過しました')
+.setColor(0xf8b4cb)
+.setImage('attachment://removebg.png');
 
-　　  await interaction.editReply({ embeds: [embed], files: [attachment] });
+await interaction.editReply({ embeds: [embed], files: [attachment] });
     } catch (error) {
       console.error('画像の背景透過中にエラーが発生しました：', error);
       await interaction.reply('エラーが出ちゃったよ..');
