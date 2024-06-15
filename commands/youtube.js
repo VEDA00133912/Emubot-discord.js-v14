@@ -55,7 +55,7 @@ module.exports = {
             await entersState(player, AudioPlayerStatus.Playing, 10 * 1000);
 
             const embed = new EmbedBuilder()
-                .setColor('#0099ff')
+                .setColor(0xf8b4cb)
                 .setTitle('再生中の動画')
                 .setDescription(`現在、[こちらの動画](${url})を再生しています。`)
                 .setTimestamp();
