@@ -1,6 +1,4 @@
-// https://github.com/InFuzzz/discord-rolelist-commmand/blob/main/rolelist.js　参考
-
-const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder, PermissionsBitField } = require('discord.js');
 const cooldowns = new Map();
 
 module.exports = {
@@ -8,6 +6,10 @@ module.exports = {
         .setName('roles')
         .setDescription('サーバー内のロール一覧を表示します。'),
     async execute(interaction) {
+
+        if (!interaction.guild.me.permissions.has(PermissionsBitField.Flags.ViewRoles)) {
+            return interaction.reply({ content: 'ロールの閲覧権限がありません。', ephemeral: true });
+        }
 
         if (cooldowns.has(interaction.user.id)) {
             const expirationTime = cooldowns.get(interaction.user.id);
