@@ -173,5 +173,6 @@ module.exports = {
                     connection.destroy();
                 }
                 connection = null;
-            },
+            }
+    }
 };
