@@ -4,10 +4,10 @@ const fs = require('fs');
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('whois')
-        .setDescription('Performs a WHOIS lookup')
+        .setDescription('whois情報の表示')
         .addStringOption(option =>
             option.setName('domain')
-                .setDescription('The domain to lookup')
+                .setDescription('調べたいどめいん')
                 .setRequired(true)),
     async execute(interaction) {
         const domain = interaction.options.getString('domain');
