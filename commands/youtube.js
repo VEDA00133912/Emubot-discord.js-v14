@@ -131,11 +131,11 @@ module.exports = {
             const collector = interaction.channel.createMessageComponentCollector({ filter, time: 3600000 });
 
             collector.on('collect', async i => {
-                await i.deferUpdate(); // Always defer the interaction update
+                await i.deferUpdate(); 
 
                 if (i.customId === 'play') {
                     if (isPaused && pausedResource) {
-                        player.unpause(pausedResource); // Resume playback using paused resource
+                        player.unpause(pausedResource);
                         isPaused = false;
                     } else {
                         await playStream(url);
@@ -143,7 +143,7 @@ module.exports = {
                     await i.followUp({ content: '再生を開始しました。', ephemeral: true });
                 } else if (i.customId === 'pause') {
                     if (player.state.status === AudioPlayerStatus.Playing) {
-                        pausedResource = player.pause(); // Pause playback and save current resource
+                        pausedResource = player.pause(); 
                         isPaused = true;
                     }
                     await i.followUp({ content: '再生を一時停止しました。', ephemeral: true });
