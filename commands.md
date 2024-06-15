@@ -31,6 +31,7 @@
 |`rolecreate`|名前(+色)を指定してロールを作成できます|
 |`/ip`|ip2locationのAPIを使ったIPの情報の検索ができます。|
 |`/whois`|ip2locationのAPIを使ったwhois情報の検索ができます|
+|`/youtube-play`|ytdl-coreを使ったyoutubeの動画の再生|
 
 
 ## その他機能
