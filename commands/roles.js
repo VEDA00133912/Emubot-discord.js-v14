@@ -1,42 +1,30 @@
 const { SlashCommandBuilder, EmbedBuilder, PermissionsBitField } = require('discord.js');
-const cooldowns = new Map();
 
 module.exports = {
-    data: new SlashCommandBuilder()
-        .setName('roles')
-        .setDescription('サーバー内のロール一覧を表示します。'),
-    async execute(interaction) {
+data: new SlashCommandBuilder()
+.setName('roles')
+.setDescription('サーバー内のロール一覧を表示します。'),
+async execute(interaction) {
+  try {
+    await interaction.deferReply({ ephemeral:true });
 
-        if (!interaction.guild.me.permissions.has(PermissionsBitField.Flags.ViewRoles)) {
-            return interaction.reply({ content: 'ロールの閲覧権限がありません。', ephemeral: true });
-        }
+    if (!interaction.guild.members.me.permissions.has(PermissionsBitField.Flags.ManageRoles)) {
+        return interaction.editReply({ content: 'ロールの閲覧権限がありません。'});
+    }
 
-        if (cooldowns.has(interaction.user.id)) {
-            const expirationTime = cooldowns.get(interaction.user.id);
-            if (Date.now() < expirationTime) {
-                const timeLeft = (expirationTime - Date.now()) / 1000;
-                await interaction.reply({ content: `コマンドが利用できるまであと ${timeLeft.toFixed(1)} 秒待ってね`, ephemeral: true });
-                return;
-            }
-        }
+    const roles = interaction.guild.roles.cache;
+    const sortedRoles = roles.sort((a, b) => b.position - a.position);
+    const roleList = sortedRoles.map(r => `${r}`).join("\n");
 
-        const cooldownTime = 60000; 
-        cooldowns.set(interaction.user.id, Date.now() + cooldownTime);
+    const embed = new EmbedBuilder()
+    .setTitle('サーバーのロール一覧')
+    .setDescription(`>>> ${roleList}`)
+    .setColor(0xf8b4cb);
 
-        const roles = interaction.guild.roles.cache;
-        const sortedRoles = roles.sort((a, b) => b.position - a.position);
-        const roleList = sortedRoles.map(r => `${r}`).join("\n");
-
-        const embed = new EmbedBuilder()
-            .setTitle('サーバーのロール一覧')
-            .setDescription(`>>> ${roleList}`)
-            .setColor(0xf8b4cb)
-            .setFooter({ text: 'このメッセージは1分後に削除されます！' });
-
-        const reply = await interaction.reply({ embeds: [embed], fetchReply: true });
-
-        setTimeout(() => {
-            reply.delete();
-        }, 60000);
-    },
+    await interaction.editReply({ embeds: [embed] });
+  } catch (error) {
+    console.error('エラーが発生しました:', error);
+    await interaction.editReply({ content: 'コマンドの実行中にエラーが発生しました。'});
+  }
+},
 };
