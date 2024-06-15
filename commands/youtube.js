@@ -1,6 +1,6 @@
 // https://scrapbox.io/discordjs-japan/ytdl-coreytdl-core を使用して YouTube の音源を配信するサンプル をいじっただけ
 
-const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder,PermissionsBitField } = require('discord.js');
 const { entersState, AudioPlayerStatus, createAudioPlayer, createAudioResource, joinVoiceChannel, StreamType } = require('@discordjs/voice');
 const ytdl = require('ytdl-core');
 
@@ -17,7 +17,7 @@ module.exports = {
         await interaction.deferReply();
 
         const url = interaction.options.getString('url');
-        
+
         if (!interaction.guild.members.me.permissions.has(PermissionsBitField.Flags.Connect)) {
             return interaction.reply({ content: 'ボイスチャンネルの接続権限が有りません', ephemeral: true });
         }
@@ -25,7 +25,7 @@ module.exports = {
         if (!interaction.guild.members.me.permissions.has(PermissionsBitField.Flags.Speak)) {
             return interaction.reply({ content: 'ボイスチャンネルの発言権限が有りません', ephemeral: true });
         }
-        
+
         if (!ytdl.validateURL(url)) {
             return interaction.editReply(`${url}は処理できません。`);
         }
