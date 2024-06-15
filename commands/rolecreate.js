@@ -53,7 +53,7 @@ module.exports = {
       await interaction.reply({ embeds: [embed] });
     } catch (error) {
       console.error(error);
-      await interaction.reply('エラーが発生しました。役割の作成に失敗しました。');
+      await interaction.reply('エラーが発生しました。ロールの作成に失敗しました。');
     }
   },
 };
