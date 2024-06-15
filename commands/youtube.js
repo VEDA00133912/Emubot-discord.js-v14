@@ -17,7 +17,15 @@ module.exports = {
         await interaction.deferReply();
 
         const url = interaction.options.getString('url');
+        
+        if (!interaction.guild.members.me.permissions.has(PermissionsBitField.Flags.Connect)) {
+            return interaction.reply({ content: 'ボイスチャンネルの接続権限が有りません', ephemeral: true });
+        }
 
+        if (!interaction.guild.members.me.permissions.has(PermissionsBitField.Flags.Speak)) {
+            return interaction.reply({ content: 'ボイスチャンネルの発言権限が有りません', ephemeral: true });
+        }
+        
         if (!ytdl.validateURL(url)) {
             return interaction.editReply(`${url}は処理できません。`);
         }
@@ -57,7 +65,7 @@ module.exports = {
             const embed = new EmbedBuilder()
                 .setColor(0xf8b4cb)
                 .setTitle('再生中の動画')
-                .setDescription(`現在、[こちらの動画](${url})を再生しています。`)
+                .setDescription(`[この動画](${url})を再生しています <a:1178108287913316473:1251369287256637530>`)
                 .setTimestamp();
 
             await interaction.editReply({ embeds: [embed] });
