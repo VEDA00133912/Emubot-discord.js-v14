@@ -17,10 +17,21 @@ module.exports = {
   async execute(interaction) {
     try {
       if (!interaction.member.permissions.has(PermissionsBitField.Flags.ManageRoles)) {
-        return interaction.reply({ content: 'あなたにこのコマンドを実行する権限がありません。', ephemeral: true });
+        return interaction.reply({ content: 'あなたにロールを管理する権限がありません。', ephemeral: true });
       }
+      if (!interaction.guild.me.permissions.has(PermissionsBitField.Flags.ManageRoles)) {
+        return interaction.reply({ content: 'このサーバーでロールを管理する権限がありません。', ephemeral: true });
+      }
+
       const name = interaction.options.getString('name');
       const color = interaction.options.getString('color');
+
+      // ロールの数を取得
+      const roleCount = interaction.guild.roles.cache.size;
+
+      if (roleCount >= 250) {
+        return interaction.reply({ content: 'ロールの作成上限のため、実行できませんでした。', ephemeral: true });
+      }
 
       let roleColor;
       if (color) {
@@ -28,6 +39,7 @@ module.exports = {
       } else {
         roleColor = '#99AAB5';
       }
+
       const createdRole = await interaction.guild.roles.create({
         name: name,
         color: roleColor,
