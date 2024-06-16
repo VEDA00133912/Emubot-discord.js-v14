@@ -8,6 +8,10 @@ let currentStream;
 let pausedResource;
 let isPaused = false;
 
+const isConnectionDestroyed = (connection) => {
+    return !connection || connection.state.status === VoiceConnectionStatus.Destroyed;
+};
+
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('youtube-play')
@@ -23,11 +27,11 @@ module.exports = {
         const url = interaction.options.getString('url');
 
         if (!interaction.guild.members.me.permissions.has(PermissionsBitField.Flags.Connect)) {
-            return interaction.reply({ content: 'ボイスチャンネルの接続権限がありません', ephemeral: true });
+            return interaction.editReply({ content: 'ボイスチャンネルの接続権限がありません', ephemeral: true });
         }
 
         if (!interaction.guild.members.me.permissions.has(PermissionsBitField.Flags.Speak)) {
-            return interaction.reply({ content: 'ボイスチャンネルの発言権限がありません', ephemeral: true });
+            return interaction.editReply({ content: 'ボイスチャンネルの発言権限がありません', ephemeral: true });
         }
 
         if (!ytdl.validateURL(url)) {
@@ -62,6 +66,7 @@ module.exports = {
                 player.stop();
             } catch (error) {
                 console.error('エラーが発生しました:', error);
+                await interaction.followUp({ content: '再生を停止中にエラーが発生しました。', ephemeral: true });
             }
         } else {
             try {
@@ -83,6 +88,7 @@ module.exports = {
                             entersState(connection, VoiceConnectionStatus.Connecting, 5_000),
                         ]);
                     } catch (error) {
+                        console.error('切断時のエラー:', error);
                         connection.destroy();
                     }
                 });
@@ -96,7 +102,8 @@ module.exports = {
                     }
                 });
             } catch (error) {
-                console.error('エラーが発生しました:', error);
+                console.error('接続の確立中にエラーが発生しました:', error);
+                await interaction.followUp({ content: '接続の確立中にエラーが発生しました。', ephemeral: true });
             }
         }
 
@@ -128,31 +135,39 @@ module.exports = {
             await interaction.editReply({ embeds: [embed], components: [row] });
 
             const filter = i => i.customId === 'play' || i.customId === 'pause' || i.customId === 'loop';
-            const collector = interaction.channel.createMessageComponentCollector({ filter, time: 3600000 });
+            const collector = interaction.channel.createMessageComponentCollector({ filter, time: 10800000  });
 
             collector.on('collect', async i => {
-                await i.deferUpdate(); 
+                try {
+                    await i.deferUpdate(); 
 
-                if (i.customId === 'play') {
-                    if (isPaused && pausedResource) {
-                        player.unpause(pausedResource);
-                        isPaused = false;
+                    if (i.customId === 'play') {
+                        if (isPaused && pausedResource) {
+                            player.unpause(pausedResource); 
+                            isPaused = false;
+                        } else {
+                            await playStream(url);
+                        }
+                        await i.followUp({ content: '再生を開始しました。', ephemeral: true });
+                    } else if (i.customId === 'pause') {
+                        if (player.state.status === AudioPlayerStatus.Playing) {
+                            pausedResource = player.pause(); 
+                            isPaused = true;
+                        }
+                        await i.followUp({ content: '再生を一時停止しました。', ephemeral: true });
+                    } else if (i.customId === 'loop') {
+                        interaction.loop = !interaction.loop;
+                        await i.followUp({ content: `ループは${interaction.loop ? '有効' : '無効'}になりました。`, ephemeral: true });
+                    }
+                } catch (error) {
+                    console.error('ボタンインタラクションの処理中にエラーが発生しました:', error);
+                    if (error.code === 10062) { 
+                        await i.followUp({ content: 'インタラクションが無効です。もう一度試してください。', ephemeral: true });
                     } else {
-                        await playStream(url);
+                        await i.followUp({ content: 'エラーが発生しました。もう一度試してください。', ephemeral: true });
                     }
-                    await i.followUp({ content: '再生を開始しました。', ephemeral: true });
-                } else if (i.customId === 'pause') {
-                    if (player.state.status === AudioPlayerStatus.Playing) {
-                        pausedResource = player.pause(); 
-                        isPaused = true;
-                    }
-                    await i.followUp({ content: '再生を一時停止しました。', ephemeral: true });
-                } else if (i.customId === 'loop') {
-                    interaction.loop = !interaction.loop;
-                    await i.followUp({ content: `ループは${interaction.loop ? '有効' : '無効'}になりました。`, ephemeral: true });
                 }
             });
-
 
             collector.on('end', collected => {
                 console.log(`Collected ${collected.size} interactions.`);
@@ -160,19 +175,26 @@ module.exports = {
 
             interaction.client.on(Events.VoiceStateUpdate, (oldState, newState) => {
                 if (oldState.channelId && !newState.channelId && oldState.member.id === interaction.member.id) {
-                    if (connection) {
+                    if (connection && !isConnectionDestroyed(connection)) {
                         connection.destroy();
+                        connection = null;
                     }
                 }
             });
 
-            } catch (error) {
-                console.error('エラーが発生しました:', error);
-                await interaction.editReply('エラーが発生しました。もう一度試してください。');
-                if (connection) {
+        } catch (error) {
+            console.error('エラーが発生しました:', error);
+            await interaction.editReply('エラーが発生しました。もう一度試してください。');
+            if (connection && !isConnectionDestroyed(connection)) {
+                try {
                     connection.destroy();
+                } catch (error) {
+                    if (error.message !== "Cannot destroy VoiceConnection - it has already been destroyed") {
+                        console.error('VoiceConnectionの破棄中にエラーが発生しました:', error);
+                    }
                 }
-                connection = null;
             }
+            connection = null;
+        }
     }
 };
