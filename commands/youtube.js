@@ -7,6 +7,7 @@ let connection;
 let currentStream;
 let pausedResource;
 let isPaused = false;
+let lastInteraction;
 
 const isConnectionDestroyed = (connection) => {
     return !connection || connection.state.status === VoiceConnectionStatus.Destroyed;
@@ -41,6 +42,30 @@ module.exports = {
         const channel = interaction.member.voice.channel;
         if (!channel) {
             return interaction.editReply('先にボイスチャンネルに参加してください！');
+        }
+
+        // 古いメッセージのボタンを無効化
+        if (lastInteraction) {
+            const row = new ActionRowBuilder()
+                .addComponents(
+                    new ButtonBuilder()
+                        .setCustomId('play')
+                        .setLabel('再生')
+                        .setStyle(ButtonStyle.Primary)
+                        .setDisabled(true),
+                    new ButtonBuilder()
+                        .setCustomId('pause')
+                        .setLabel('一時停止')
+                        .setStyle(ButtonStyle.Danger)
+                        .setDisabled(true),
+                    new ButtonBuilder()
+                        .setCustomId('loop')
+                        .setLabel('ループ')
+                        .setStyle(ButtonStyle.Secondary)
+                        .setDisabled(true)
+                );
+
+            await lastInteraction.editReply({ components: [row] });
         }
 
         const playStream = async (url) => {
@@ -134,16 +159,18 @@ module.exports = {
 
             await interaction.editReply({ embeds: [embed], components: [row] });
 
+            lastInteraction = interaction;
+
             const filter = i => i.customId === 'play' || i.customId === 'pause' || i.customId === 'loop';
-            const collector = interaction.channel.createMessageComponentCollector({ filter, time: 10800000  });
+            const collector = interaction.channel.createMessageComponentCollector({ filter, time: 3600000 });
 
             collector.on('collect', async i => {
                 try {
-                    await i.deferUpdate(); 
+                    await i.deferUpdate();
 
                     if (i.customId === 'play') {
                         if (isPaused && pausedResource) {
-                            player.unpause(pausedResource); 
+                            player.unpause(pausedResource);
                             isPaused = false;
                         } else {
                             await playStream(url);
@@ -151,7 +178,7 @@ module.exports = {
                         await i.followUp({ content: '再生を開始しました。', ephemeral: true });
                     } else if (i.customId === 'pause') {
                         if (player.state.status === AudioPlayerStatus.Playing) {
-                            pausedResource = player.pause(); 
+                            pausedResource = player.pause();
                             isPaused = true;
                         }
                         await i.followUp({ content: '再生を一時停止しました。', ephemeral: true });
@@ -161,7 +188,7 @@ module.exports = {
                     }
                 } catch (error) {
                     console.error('ボタンインタラクションの処理中にエラーが発生しました:', error);
-                    if (error.code === 10062) { 
+                    if (error.code === 10062) {
                         await i.followUp({ content: 'インタラクションが無効です。もう一度試してください。', ephemeral: true });
                     } else {
                         await i.followUp({ content: 'エラーが発生しました。もう一度試してください。', ephemeral: true });
