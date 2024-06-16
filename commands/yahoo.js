@@ -12,9 +12,8 @@ module.exports = {
     async execute(interaction) {
         const guildId = interaction.guild.id;
         const currentTime = Date.now();
-        const cooldownAmount = 2 * 60 * 1000; // 2 minutes in milliseconds
-
-        // Check if guild is on cooldown
+        const cooldownAmount = 2 * 60 * 1000; 
+        
         if (cooldowns.has(guildId)) {
             const expirationTime = cooldowns.get(guildId) + cooldownAmount;
             if (currentTime < expirationTime) {
@@ -23,7 +22,6 @@ module.exports = {
             }
         }
 
-        // Set cooldown for guild
         cooldowns.set(guildId, currentTime);
 
         await interaction.deferReply();
@@ -42,7 +40,6 @@ module.exports = {
             if (newsLinks.length > 0) {
                 const randomLink = newsLinks[Math.floor(Math.random() * newsLinks.length)];
 
-                // Check if the bot has permission to send embed links
                 if (!interaction.guild.members.me.permissions.has(PermissionsBitField.Flags.EmbedLinks)) {
                     return interaction.editReply({ content: '埋め込みリンクを送信する権限がありません。', ephemeral: true });
                 }
@@ -56,14 +53,11 @@ module.exports = {
 
             let errorMessage = 'エラーが発生しました。もう一度試してください。';
             if (error.response) {
-                // The request was made and the server responded with a status code
-                // that falls out of the range of 2xx
+
                 errorMessage = `Yahooサーバーからのエラー: ${error.response.status} - ${error.response.statusText}`;
             } else if (error.request) {
-                // The request was made but no response was received
                 errorMessage = 'Yahooサーバーからの応答がありませんでした。';
             } else {
-                // Something happened in setting up the request that triggered an Error
                 errorMessage = `リクエストの設定中にエラーが発生しました: ${error.message}`;
             }
 
