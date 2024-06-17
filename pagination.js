@@ -1,93 +1,114 @@
-const { ButtonStyle, ActionRowBuilder, ButtonBuilder, ComponentType } = require('discord.js'); 
+const { ButtonStyle, ActionRowBuilder, ButtonBuilder, ComponentType } = require('discord.js');
 
 async function buttonPages(interaction, pages) {
-    // エラーメッセージ
-    if (!interaction) throw new Error("interactionが提供されていません");
-    if (!pages) throw new Error("ページの引数の未記入エラー");
-    if (!Array.isArray(pages)) throw new Error("ページが配列でないエラー");
+    try {
+        // エラーメッセージ
+        if (!interaction) throw new Error("interactionが提供されていません");
+        if (!pages) throw new Error("ページの引数の未記入エラー");
+        if (!Array.isArray(pages)) throw new Error("ページが配列でないエラー");
 
-    await interaction.deferReply();
+        await interaction.deferReply();
 
-    if (pages.length === 1) {
-        const page = await interaction.editReply({
-            embeds: pages,
-            components: [],
-            fetchReply: true,
-        });
-        return page;
-    }
-
-    // ボタン
-    const prev = new ButtonBuilder()
-        .setCustomId("prev")
-        .setEmoji("◀")
-        .setStyle(ButtonStyle.Primary)
-        .setDisabled(true);
-
-    const home = new ButtonBuilder()
-        .setCustomId("home")
-        .setLabel("最初に戻る")
-        .setStyle(ButtonStyle.Danger)
-        .setDisabled(true);
-
-    const next = new ButtonBuilder()
-        .setCustomId("next")
-        .setEmoji("▶")
-        .setStyle(ButtonStyle.Primary);
-
-    const buttonRow = new ActionRowBuilder().addComponents(prev, home, next);
-    let index = 0;
-
-    const currentPage = await interaction.editReply({
-        embeds: [pages[index]],
-        components: [buttonRow],
-        fetchReply: true,
-    });
-
-    const collector = await currentPage.createMessageComponentCollector({
-        componentType: ComponentType.BUTTON,
-    });
-
-    collector.on("collect", async (i) => {
-        if (i.user.id !== interaction.user.id)
-            return i.reply({
-                content: "今は使えません",
-                ephemeral: true,
+        if (pages.length === 1) {
+            const page = await interaction.editReply({
+                embeds: pages,
+                components: [],
+                fetchReply: true,
             });
-
-        // ボタンでページを切り替え
-        await i.deferUpdate();
-
-        if (i.customId === "prev") {
-            if (index > 0) index--;
-        } else if (i.customId === "home") {
-            index = 0;
-        } else if (i.customId === "next") {
-            if (index < pages.length - 1) index++;
+            return page;
         }
 
-        if (index === 0) prev.setDisabled(true);
-        else prev.setDisabled(false);
+        // ボタン
+        const prev = new ButtonBuilder()
+            .setCustomId("prev")
+            .setEmoji("◀")
+            .setStyle(ButtonStyle.Primary)
+            .setDisabled(true);
 
-        if (index === 0) home.setDisabled(true);
-        else home.setDisabled(false);
+        const home = new ButtonBuilder()
+            .setCustomId("home")
+            .setLabel("最初に戻る")
+            .setStyle(ButtonStyle.Danger)
+            .setDisabled(true);
 
-        if (index === pages.length - 1) next.setDisabled(true);
-        else next.setDisabled(false);
+        const next = new ButtonBuilder()
+            .setCustomId("next")
+            .setEmoji("▶")
+            .setStyle(ButtonStyle.Primary);
 
-        await currentPage.edit({
+        const buttonRow = new ActionRowBuilder().addComponents(prev, home, next);
+        let index = 0;
+
+        const currentPage = await interaction.editReply({
             embeds: [pages[index]],
             components: [buttonRow],
+            fetchReply: true,
         });
 
-        collector.resetTimer();
-    });
+        const collector = currentPage.createMessageComponentCollector({
+            componentType: ComponentType.Button,
+            time: 60 * 1000, // タイムアウトを設定
+        });
 
-    setTimeout(async () => {
-        await interaction.deleteReply();
-    }, 60 * 1000); // 60秒後にembedを削除
+        collector.on("collect", async (i) => {
+            try {
+                if (i.user.id !== interaction.user.id) {
+                    return i.reply({
+                        content: "今は使えません",
+                        ephemeral: true,
+                    });
+                }
 
-    return currentPage;
+                // ボタンでページを切り替え
+                await i.deferUpdate();
+
+                if (i.customId === "prev") {
+                    if (index > 0) index--;
+                } else if (i.customId === "home") {
+                    index = 0;
+                } else if (i.customId === "next") {
+                    if (index < pages.length - 1) index++;
+                }
+
+                prev.setDisabled(index === 0);
+                home.setDisabled(index === 0);
+                next.setDisabled(index === pages.length - 1);
+
+                await currentPage.edit({
+                    embeds: [pages[index]],
+                    components: [buttonRow],
+                });
+
+                collector.resetTimer();
+            } catch (error) {
+                console.error('Error while handling button interaction:', error);
+                await i.followUp({ content: 'エラーが発生しました。もう一度お試しください。', ephemeral: true });
+            }
+        });
+
+        collector.on('end', async (_, reason) => {
+            if (reason !== 'messageDelete') {
+                // タイムアウト時や手動での終了時にボタンを無効化
+                const disabledRow = new ActionRowBuilder().addComponents(
+                    prev.setDisabled(true),
+                    home.setDisabled(true),
+                    next.setDisabled(true),
+                );
+                try {
+                    await currentPage.edit({
+                        components: [disabledRow],
+                    });
+                } catch (error) {
+                    console.error('Error while disabling buttons:', error);
+                }
+            }
+        });
+
+        return currentPage;
+    } catch (error) {
+        console.error('Error in buttonPages function:', error);
+        await interaction.reply({ content: 'エラーが発生しました。もう一度お試しください。', ephemeral: true });
+    }
 }
 
 module.exports = buttonPages;
