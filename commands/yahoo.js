@@ -1,3 +1,4 @@
+// ※注意　EUのサーバーはYahooがサービス停止した影響でアクセスできないのでこのコマンドが使えません。
 const { SlashCommandBuilder, PermissionsBitField } = require('discord.js');
 const axios = require('axios');
 const cheerio = require('cheerio');
