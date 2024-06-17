@@ -32,10 +32,11 @@
 |`/ip`|ip2locationのAPIを使ったIPの情報の検索ができます。|
 |`/whois`|ip2locationのAPIを使ったwhois情報の検索ができます|
 |`/youtube-play`|ytdl-coreを使ったyoutubeの動画の再生|
-
+|`/yahoo`|yahooニュースをランダムに取得して送信|
 
 ## その他機能
 | 機能 | 機能の説明|
 |---|---|
 |`リンク展開`|メッセージリンクを送信すると、そのメッセージの内容をEmbedで表示|
 |`アナウンス作成`|参加時に自動でアナウンス用チャンネルを作成|
+|`GeminiAIとの会話`|GoogleGeminiAPIを使用したGeminiとの会話機能|
