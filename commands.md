@@ -33,6 +33,7 @@
 |`/whois`|ip2locationのAPIを使ったwhois情報の検索ができます|
 |`/youtube-play`|ytdl-coreを使ったyoutubeの動画の再生|
 |`/yahoo`|yahooニュースをランダムに取得して送信|
+|`/メッセージの自動展開`|メッセージリンクの自動展開のオンオフ|
 
 ## その他機能
 | 機能 | 機能の説明|
