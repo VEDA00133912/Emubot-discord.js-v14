@@ -1,4 +1,7 @@
 const { EmbedBuilder } = require('discord.js');
+const fs = require('fs');
+
+const SETTINGS_FILE = './msglink.json';
 
 module.exports = {
   name: 'messageCreate',
@@ -7,6 +10,23 @@ module.exports = {
     const urls = message.content.match(urlRegex);
 
     if (urls) {
+      let settings = {};
+
+      if (fs.existsSync(SETTINGS_FILE)) {
+        try {
+          const data = fs.readFileSync(SETTINGS_FILE, 'utf8');
+          settings = JSON.parse(data);
+        } catch (error) {
+          console.error('設定ファイルの読み取りまたは解析中にエラーが発生しました:', error);
+        }
+      }
+
+    // 設定がtrueの場合もしくは設定されていない場合に展開を行う
+      const guildId = message.guild.id;
+      const shouldExpandLinks = settings[guildId] !== undefined ? settings[guildId] : true;
+
+      if (!shouldExpandLinks) return;
+
       for (const url of urls) {
         if (url.includes('discord.com/channels/')) {
           const urlParts = url.split('/');
@@ -23,13 +43,13 @@ module.exports = {
               const hasAttachment = Boolean(fetchedMessage.attachments.size);
 
               if (!messageContent && hasEmbed) {
-                console.log(`Error: Fetched message only contains an embed.`);
+                console.log('Error: Fetched message only contains an embed.');
                 return;
               }
 
               const embed = new EmbedBuilder()
                 .setColor(0xf8b4cb)
-            .setTimestamp(fetchedMessage.createdTimestamp)
+                .setTimestamp(fetchedMessage.createdTimestamp)
                 .setAuthor({ name: fetchedMessage.author.tag, iconURL: fetchedMessage.author.displayAvatarURL() });
 
               if (hasAttachment) {
@@ -42,9 +62,10 @@ module.exports = {
                   embed.addFields({ name: 'File', value: `[${attachment.name}](${attachment.proxyURL})` });
                 }
               }
-                  if (messageContent) {
-                    embed.setDescription(messageContent);
-                  }
+
+              if (messageContent) {
+                embed.setDescription(messageContent);
+              }
 
               message.channel.send({ embeds: [embed] });
             }
