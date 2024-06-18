@@ -37,9 +37,9 @@ module.exports = {
             .setDescription('コマンド一覧 (2)')
             .addFields(
                 { name: '**/translate**', value: '日本語を翻訳します\n(英、中、韓、露)', inline: true },
-                { name: '**/random**', value: 'ランダム英数字生成', inline: true },
+                { name: '**/youtube-play**', value: 'ボイスチャンネルで指定したYoutube動画の再生', inline: true },
                 { name: '**/ping**', value: 'ping値の表示', inline: true },
-                { name: '**/bancount**', value: 'BANメンバー数の表示', inline: true },
+                { name: '**/メッセージの自動展開**', value: 'デフォでオンになっているので', inline: true },
                 { name: '**/convert**', value: '文字列の変換', inline: true },
                 { name: '**/deletemessage**', value: 'メッセージの削除', inline: true }
             )
@@ -81,11 +81,23 @@ module.exports = {
                 { name: '**/userinfo**', value: 'ユーザー情報の表示', inline: true },
                 { name: '**/kon**', value: 'コンギョを送信', inline: true },
                 { name: '**/changenumber**', value: '進数変換', inline: true },
-                { name: '**/kon**', value: 'コンギョを送信', inline: true }
+                { name: '**/ip**', value: 'IPアドレス検索', inline: true },
+                { name: '**/whois**', value: 'whois検索', inline: true },
+                { name: '**/yahoo**', value: 'yahooニュースの取得', inline: true }
+            )
+            .setColor(0xf8b4cb);
+        
+        const embed7 = new EmbedBuilder()
+            .setColor(0xee99ff)
+            .setTitle("えむbot｜help")
+            .setDescription('コマンド一覧 (6)')
+            .addFields(
+                { name: '**/random**', value: 'ランダムな英数字生成', inline: true },
+                { name: '**/banount**', value: 'BAN数を表示', inline: true }
             )
             .setColor(0xf8b4cb);
 
-        const pages = [embed1, embed2, embed3, embed4, embed5, embed6];
+        const pages = [embed1, embed2, embed3, embed4, embed5, embed6, embed7];
         await buttonPages(interaction, pages);
     },
 };
