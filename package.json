@@ -15,6 +15,7 @@
     "axios": "^1.7.2",
     "config.json": "^0.0.4",
     "discord.js": "^14.15.2",
+    "cheerio": "^1.0.0-rc.12",
     "@discordjs/voice": "^0.17.0",
     "ytdl-core": "^4.11.5",
     "form-data": "^4.0.0",
