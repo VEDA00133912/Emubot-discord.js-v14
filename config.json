@@ -1,8 +1,11 @@
 {
-	"token": "botのtoken",
+	"token": "token",
+	"logChannelId": "logチャンネル",
 	"clientId": "botのID",
-	"REMOVE_BG_API_KEY":"remove.bgのAPIキー",
-	"xgdApiKey":"x.gdのAPIキー",
+	"REMOVE_BG_API_KEY": "remove.bgのAPI",
+	"xgdApiKey": "x.gdのAPI",
+	"ip_API": "ip2locationのAPI",
+	"tenorAPI": "tenorのAPI",
 	"API_KEY":"GeminiのAPIキー",
 }
 
