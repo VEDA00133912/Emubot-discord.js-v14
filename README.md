@@ -18,6 +18,6 @@ https://discord.com/oauth2/authorize?client_id=1211256321484005436&permissions=8
 
 ## その他
 [![Discord](https://img.shields.io/discord/987698915820335124?color=5865f2&label=Discord&logo=Discord&logoColor=ffffff)](https://discord.gg/rwh6TvphJ9)
-[![Discord](https://img.shields.io/twitter/follow/:ryo_001339)](https://x.com/ryo_001339)
+[![Discord](https://img.shields.io/twitter/follow/ryo_001339)](https://x.com/ryo_001339)
 
 
